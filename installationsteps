@@ -1,0 +1,43 @@
+systemctl status firewalld
+systemctl stop firewalld
+systemctl disable firewalld
+yum install libaio numactl
+vi /etc/hosts
+
+xpack.security.enabled: false
+192.168.189.208 appdynamics.vipin.io
+192.168.189.200 server01.vipin.io
+chmod 775 platform-setup-x64-linux-4.4.3.10393.sh
+/opt/appdynamics/platform/product/controller
+./platform-setup-x64-linux-4.4.3.10393.sh
+/opt/appdynamics/platform/platform-admin/bin
+./platform-admin.sh stop-platform-admin
+ ./platform-admin.sh start-platform-admin
+-=-----------------------------------------------------------------------------------
+ scp license.lic root@192.168.189.198:/opt/appdynamics/platform/product/controller/
+ ./platform-admin.sh stop-controller-appserver --with-db
+ ./platform-admin.sh start-controller-appserver --with-db
+ 
+------------------------------------------------------------------
+192.168.189.191 appd.vipin.io
+192.168.189.193 node01.vipin.io
+
+copy machineagent - vi /opt/machineagent/conf/controller-info.xml
+
+<force-agent-registration>true</force-agent-registration>
+<application-name>Openmrs</application-name>
+<node-name>Node02</node-name>
+<tier-name>Web</tier-name>
+---------------------------------------------------------------------;
+vi /opt/machineagent/monitors/analytics-agent/conf/analytics-agent.properties
+
+ad.controller.url=http://appd.vipin.io:8090
+
+http.event.endpoint=http://appd.vipin.io:8090
+--------------------------------------------------------------
+/opt/machineagent/logs
+
+yum -y install epel-release
+sudo yum install stress
+stress -c 4 -i 4 -m 4 --vm-bytes 256M -d 1 --hdd-bytes 10GB -t 300s
+-----------------------------------------------------
